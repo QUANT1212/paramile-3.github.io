@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página con Imágenes y Video</title>
+    <style>
+        :root {
+            --pos-x1: 45%;
+            --pos-y1: 55%;
+            --pos-x3: 100px;
+            --pos-y3: 20px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('dibujito.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Título romántico */
+        .titulo-amor {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+            font-family: 'Brush Script MT', cursive;
+            color: #ff69b4;
+            font-size: 3em;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            animation: parpadeo 1s infinite alternate;
+            z-index: 1000;
+        }
+
+        /* Animación de parpadeo suave */
+        @keyframes parpadeo {
+            0% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        .imagen {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            object-fit: cover;
+            opacity: 0;
+            pointer-events: all;
+            clip-path: polygon(
+                50% 0%, 
+                61% 18%, 
+                75% 25%, 
+                88% 36%, 
+                94% 50%, 
+                88% 63%, 
+                75% 75%, 
+                50% 100%, 
+                25% 75%, 
+                12% 63%, 
+                6% 50%, 
+                12% 36%, 
+                25% 25%, 
+                39% 18%
+            );
+        }
+
+        .imagen1 {
+            top: var(--pos-y1);
+            left: var(--pos-x1);
+            transform: translate(-50%, -50%);
+        }
+
+        .imagen2 {
+            top: 40%;
+            left: 45%;
+            transform: translate(-50%, -50%);
+        }
+
+        .imagen3 {
+            top: var(--pos-y3);
+            left: var(--pos-x3);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .modal img {
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 10px;
+            animation: aparecer 0.5s ease-in-out;
+        }
+
+        @keyframes aparecer {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .magia {
+            position: absolute;
+            font-size: 30px;
+            animation: flotar 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes flotar {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .icono-video {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .modal-video {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .modal-video video {
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Título romántico -->
+    <h1 class="titulo-amor">FELIZ DÍA DEL AMOR Y LA AMISTAD, CHICA ESTRELLA ✨</h1>
+
+    <!-- Imágenes en forma de corazón -->
+    <img src="ella1.jpg" class="imagen imagen1" onclick="abrirModal('ella1.jpg')" alt="Imagen 1">
+    <img src="ella2.jpg" class="imagen imagen2" onclick="abrirModal('ella2.jpg')" alt="Imagen 2">
+    <img src="ella3.jpg" class="imagen imagen3" onclick="abrirModal('ella3.jpg')" alt="Imagen 3">
+
+    <!-- Modal para mostrar las imágenes con corazones y chispitas -->
+    <div class="modal" id="modal" onclick="cerrarModal()">
+        <img id="imagen-modal" src="" alt="Imagen">
+    </div>
+
+    <!-- Ícono para abrir el video -->
+    <div class="icono-video" onclick="abrirVideo()">✨</div>
+
+    <!-- Contenedor para el video -->
+    <div class="modal-video" id="modal-video" onclick="cerrarVideo()">
+        <video id="video-reproductor" controls>
+            <source src="ella.mp4" type="video/mp4">
+            Tu navegador no soporta el video.
+        </video>
+    </div>
+
+    <script>
+        function abrirModal(rutaImagen) {
+            document.getElementById('imagen-modal').src = rutaImagen;
+            document.getElementById('modal').style.display = 'flex';
+            mostrarMagia();
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function mostrarMagia() {
+            for (let i = 0; i < 15; i++) {
+                let corazon = document.createElement('div');
+                corazon.className = 'magia';
+                corazon.innerHTML = '❤️';
+                corazon.style.left = (Math.random() * 100) + 'vw';
+                corazon.style.top = (Math.random() * 100) + 'vh';
+                document.body.appendChild(corazon);
+            }
+            for (let i = 0; i < 15; i++) {
+                let chispita = document.createElement('div');
+                chispita.className = 'magia';
+                chispita.innerHTML = '✨';
+                chispita.style.left = (Math.random() * 100) + 'vw';
+                chispita.style.top = (Math.random() * 100) + 'vh';
+                document.body.appendChild(chispita);
+            }
+        }
+
+        function abrirVideo() {
+            document.getElementById('modal-video').style.display = 'flex';
+            document.getElementById('video-reproductor').play();
+        }
+
+        function cerrarVideo() {
+            document.getElementById('modal-video').style.display = 'none';
+            document.getElementById('video-reproductor').pause();
+            document.getElementById('video-reproductor').currentTime = 0;
+        }
+    </script>
+</body>
+</html>
